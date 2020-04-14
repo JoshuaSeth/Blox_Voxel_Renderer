@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60ca07189079452c8f7b5c849b70db6, type: 3}
+  m_Name: Big Grass patches
+  m_EditorClassIdentifier: 
+  minHeight: -200
+  maxHeight: 200
+  thresHold: 0.15
+  type: 4
+  perlinLayers:
+  - stretch: 8
+    layerMaxHeight: 0
+  - stretch: 15
+    layerMaxHeight: 0

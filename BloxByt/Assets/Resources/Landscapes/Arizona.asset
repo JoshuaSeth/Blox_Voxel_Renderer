@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c036c75d0e507411fb1b5742d1e83342, type: 3}
+  m_Name: Arizona
+  m_EditorClassIdentifier: 
+  biomes:
+  - {fileID: 11400000, guid: 606d3c832a5b2471fb70e5040f632a96, type: 2}
+  - {fileID: 11400000, guid: 9ccc6ff0e80cd43fdb168140a1eeb0ba, type: 2}
+  - {fileID: 11400000, guid: 54e85e7aee64d4ed4b772b0fc0a0af10, type: 2}
+  biomeDistribution: 0
+  stretch: 0.8

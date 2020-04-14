@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c036c75d0e507411fb1b5742d1e83342, type: 3}
+  m_Name: Alps
+  m_EditorClassIdentifier: 
+  biomes:
+  - {fileID: 11400000, guid: ec15d999148f848249e4728d04980e5c, type: 2}
+  - {fileID: 11400000, guid: d286aaa93a923495683540ebb288db71, type: 2}
+  - {fileID: 11400000, guid: 30b29e9d4215a470dbd6cca898daee15, type: 2}
+  biomeDistribution: 1
+  stretch: 0.8

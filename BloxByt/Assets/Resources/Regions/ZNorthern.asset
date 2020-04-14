@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838355b5fd4a44f17a39c8d66b912ad7, type: 3}
+  m_Name: ZNorthern
+  m_EditorClassIdentifier: 
+  landscapes:
+  - {fileID: 11400000, guid: 4581ac859e6354a96838b43c2669e651, type: 2}
+  - {fileID: 11400000, guid: 5be774ea4017740bb8ab4f9dfc340688, type: 2}
+  - {fileID: 11400000, guid: 8263b7eef87bf4a88a5713bfccaf78c7, type: 2}
+  - {fileID: 11400000, guid: 98ee9ba1cf448465d912dd2186d0dfbf, type: 2}
+  distribution: 0
+  stretch: 0.5

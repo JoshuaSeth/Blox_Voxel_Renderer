@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f629499402540b88af98d10ad76df6, type: 3}
+  m_Name: Chalk Cliffs
+  m_EditorClassIdentifier: 
+  useInvertedABS: 0
+  baseHeight: 19
+  maxHeight: 20
+  minHeight: 12
+  perlinLayers:
+  - stretch: 1.5
+    layerMaxHeight: 100
+  geography: {fileID: 11400000, guid: 79f577384edc74f60843b16dc5c2adca, type: 2}
+  beakWidth: 0
+  beakDepth: 0
+  riverWidth: 0
+  riverDepth: 0
+  bigRiverWidth: 0
+  bigRiverDepth: 0
+  vegetationLayers: []
+  typeOverlays: []
