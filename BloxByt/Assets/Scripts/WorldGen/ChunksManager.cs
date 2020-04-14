@@ -30,11 +30,11 @@ public class ChunksManager : MonoBehaviour
         blockMat = Resources.LoadAll<Material>("Materials/")[0];
         chunkPrfb = Resources.LoadAll<GameObject>("Prefabs/")[0];
         Chance.Initialize();
-        GameObjectHandler.Init();
     }
 
     void Start()
     {
+        GameObjectHandler.i.Init();
         StartCoroutine(FinalizeFinishedChunksContinuous());
     }
 
@@ -210,7 +210,7 @@ public class ChunksManager : MonoBehaviour
         chunks.StartDeletionActivity();
         foreach (PositionInfo info in deletables)
         {
-            GameObjectHandler.SetAvailable(info.chunk);
+            GameObjectHandler.i.SetAvailable(info.chunk);
             chunks.Remove(info.key);
         }
         chunks.FinishDeletionActivity();
@@ -258,7 +258,7 @@ public class ChunksManager : MonoBehaviour
     public static void StopThreadRemoveChunk(List<PositionInfo> deletables, PositionInfo info)
     {
         if (info.chunk != null)
-            GameObjectHandler.SetAvailable(info.chunk);
+            GameObjectHandler.i.SetAvailable(info.chunk);
         deletables.Add(info);
     }
 
@@ -271,7 +271,7 @@ public class ChunksManager : MonoBehaviour
         //GameObject chunkGO = GameObject.Instantiate(chunkPrfb);
         GameObject chunkGO = info.chunk;
         if(needsGO)
-            chunkGO = GameObjectHandler.GetGameObject();
+            chunkGO = GameObjectHandler.i.GetGameObject();
         chunkGO.GetComponent<MeshRenderer>().sharedMaterial = blockMat;
         chunkGO.GetComponent<MeshFilter>().mesh = mesh;
 

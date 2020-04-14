@@ -5,39 +5,45 @@ using System.Linq;
 
 public class GameObjectHandler : MonoBehaviour
 {
-    public static List<GameObject> pool = new List<GameObject>();
-    static int startSize = 1000;
-   
+    public List<GameObject> pool = new List<GameObject>();
+    static int startSize = 100;
 
-    // Start is called before the first frame update
-    public static void Init()
+    public static GameObjectHandler i;
+
+    private void Awake()
     {
-        for(int i = 0; i < startSize; i++)
-        {
-            GameObject go = GameObject.Instantiate(ChunksManager.chunkPrfb) as GameObject;
-            go.SetActive(false);
-            pool.Add(go);
-        }
+        i = this;
     }
 
-    public static GameObject GetGameObject()
+
+    // Start is called before the first frame update
+    public void Init()
     {
-        Debug.Log("Giving GO");
-        foreach (GameObject gob in pool)
-            if (!gob.active)
-            {
-                gob.SetActive(true);
-                return gob;
-            }
+        //for (int i = 0; i < startSize; i++)
+        //{
+        //    GameObject go = GameObject.Instantiate(ChunksManager.chunkPrfb) as GameObject;
+        //    go.SetActive(false);
+        //    pool.Add(go);
+        //}
+    }
+
+    public GameObject GetGameObject()
+    {
+        //foreach (GameObject gob in pool)
+            //if (!gob.activeInHierarchy)
+            //{
+            //    gob.SetActive(true);
+            //    return gob;
+            //}
         GameObject go = GameObject.Instantiate(ChunksManager.chunkPrfb) as GameObject;
-        pool.Add(go);
-        Debug.Log(pool.Count);
+        //pool.Add(go);
+        //Debug.Log(pool.Count);
         return go;
     }
 
-    public static void SetAvailable(GameObject go)
+    public void SetAvailable(GameObject go)
     {
-        go.SetActive(false);
+        GameObject.Destroy(go);
     }
 
 }
