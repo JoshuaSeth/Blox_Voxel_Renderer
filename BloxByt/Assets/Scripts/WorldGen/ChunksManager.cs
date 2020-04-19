@@ -274,6 +274,7 @@ public class ChunksManager : MonoBehaviour
             chunkGO = GameObjectHandler.i.GetGameObject();
         chunkGO.GetComponent<MeshRenderer>().sharedMaterial = blockMat;
         chunkGO.GetComponent<MeshFilter>().mesh = mesh;
+        
 
         //Naturr mesh
         //Mesh meshn = MeshUtil.TransferMeshData(natureMeshData);

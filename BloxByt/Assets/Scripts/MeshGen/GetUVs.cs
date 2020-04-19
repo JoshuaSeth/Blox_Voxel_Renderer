@@ -163,42 +163,4 @@ public static class GetUVs
 
         return UVs;
     }
-
-
-    public static void GetUVWithRiver(int x, int y, int z, MeshData meshData, Biome biome, float steepness)
-    {
-        //This  is working but inactivated, reactivating it should work normally 
-        //
-        //
-        //float ridgeHeight = Mathf.Abs(100 * Chance.fnOnelayer.GetSimplex(x + 34, z - 84740));
-        //if (ridgeHeight < biome.beakWidth)
-        //{
-        //    meshData.uv.AddRange(FaceUVs(Cube.Type.Water));
-        //    return;
-        //}
-
-        //ridgeHeight = Mathf.Abs(100 * Chance.fnOnelayer.GetSimplex(x / 8 + 34, z / 8 - 84740));
-        //if (ridgeHeight < biome.riverWidth)
-        //{
-        //    meshData.uv.AddRange(FaceUVs(Cube.Type.Water));
-        //    return;
-        //}
-
-        //ridgeHeight = Mathf.Abs(100 * Chance.fnOnelayer.GetSimplex(x / 64 + 34, z / 64 - 84740));
-        //if (ridgeHeight < biome.bigRiverWidth)
-        //{
-        //    meshData.uv.AddRange(FaceUVs(Cube.Type.Water));
-        //    return;
-        //}
-
-        //Cube.Type type = Chance.TypeOverlay(x, z, y, biome);
-        //if (type != Cube.Type.None)
-        //{
-        //    meshData.uv.AddRange(FaceUVs(type));
-        //    return;
-        //}
-
-        //else
-            meshData.uv.AddRange(FaceUVs(biome.geography.GetType(y, steepness)));
-    }
 }
