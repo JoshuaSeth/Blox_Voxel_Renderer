@@ -208,48 +208,51 @@ public static class GetMeshData
 
         Vector3[] vertCollection = new Vector3[4];
 
-        if (heightGrid == null)
-        {
-            if (Chance.GetHeight(x, z + LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
-            {
-                vertCollection[1] = new Vector3(0, -1f, 0);
-                slopedTop = true;
-                //steepness = 0.(chunkSize-1)5f;
-                nedown = true;
-                //if(Chance.GetHeight(x + LODLevel, z + LODLevel, biome, heightGrid) < y)
-                //vertCollection[1] = new Vector3(0, -2f, 0);
-            }
-            if (Chance.GetHeight(x + LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z - LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z - LODLevel, biome, heightGrid) < y + 1)
-            {
-                vertCollection[2] = new Vector3(0, -1f, 0);
-                slopedTop = true;
-                //steepness = 0.(chunkSize-1)5f;
-                sedown = true;
-                //if(Chance.GetHeight(x + LODLevel, z - LODLevel, biome, heightGrid) < y)
-                //vertCollection[2] = new Vector3(0, -2f, 0);
-            }
-            if (Chance.GetHeight(x - LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z - LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x - LODLevel, z - LODLevel, biome, heightGrid) < y + 1)
-            {
-                vertCollection[3] = new Vector3(0, -1f, 0);
-                slopedTop = true;
-                //steepness = 0.(chunkSize-1)5f;
-                swdown = true;
-                //if(Chance.GetHeight(x - LODLevel, z - LODLevel, biome, heightGrid) < y)
-                //vertCollection[3] = new Vector3(0, -2f, 0);
-            }
-            if (Chance.GetHeight(x - LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z + LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x - LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
-            {
-                vertCollection[0] = new Vector3(0, -1f, 0);
-                slopedTop = true;
-                //steepness = 0.(chunkSize-1)5f;
-                nwdown = true;
-                //if(Chance.GetHeight(x - LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
-                //vertCollection[0] = new Vector3(0, -2f, 0);
-            }
-        }
+        //TODO
+        //This can be uncommented again! Is temporarily disabled to have straight blocks without sloped tops
+        #region disabled sloped tops
+        //if (heightGrid == null)
+        //{
+        //    if (Chance.GetHeight(x, z + LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
+        //    {
+        //        vertCollection[1] = new Vector3(0, -1f, 0);
+        //        slopedTop = true;
+        //        //steepness = 0.(chunkSize-1)5f;
+        //        nedown = true;
+        //        //if(Chance.GetHeight(x + LODLevel, z + LODLevel, biome, heightGrid) < y)
+        //        //vertCollection[1] = new Vector3(0, -2f, 0);
+        //    }
+        //    if (Chance.GetHeight(x + LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z - LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x + LODLevel, z - LODLevel, biome, heightGrid) < y + 1)
+        //    {
+        //        vertCollection[2] = new Vector3(0, -1f, 0);
+        //        slopedTop = true;
+        //        //steepness = 0.(chunkSize-1)5f;
+        //        sedown = true;
+        //        //if(Chance.GetHeight(x + LODLevel, z - LODLevel, biome, heightGrid) < y)
+        //        //vertCollection[2] = new Vector3(0, -2f, 0);
+        //    }
+        //    if (Chance.GetHeight(x - LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z - LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x - LODLevel, z - LODLevel, biome, heightGrid) < y + 1)
+        //    {
+        //        vertCollection[3] = new Vector3(0, -1f, 0);
+        //        slopedTop = true;
+        //        //steepness = 0.(chunkSize-1)5f;
+        //        swdown = true;
+        //        //if(Chance.GetHeight(x - LODLevel, z - LODLevel, biome, heightGrid) < y)
+        //        //vertCollection[3] = new Vector3(0, -2f, 0);
+        //    }
+        //    if (Chance.GetHeight(x - LODLevel, z, biome, heightGrid) < y + 1 || Chance.GetHeight(x, z + LODLevel, biome, heightGrid) < y + 1 || Chance.GetHeight(x - LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
+        //    {
+        //        vertCollection[0] = new Vector3(0, -1f, 0);
+        //        slopedTop = true;
+        //        //steepness = 0.(chunkSize-1)5f;
+        //        nwdown = true;
+        //        //if(Chance.GetHeight(x - LODLevel, z + LODLevel, biome, heightGrid) < y + 1)
+        //        //vertCollection[0] = new Vector3(0, -2f, 0);
+        //    }
+        //}
 
-
-
+        //TODO
+        //These were already commented before disabling the sloped tops
         //if (nedown)
         //{
         //    if (Chance.GetHeight(x - LODLevel, z, biome, heightGrid) >= y)
@@ -279,6 +282,7 @@ public static class GetMeshData
         //    if (Chance.GetHeight(x + LODLevel, z, biome, heightGrid) >= y)
         //        meshData = NorthFaceBottomTriangleReversed(x, y, z, meshData, biome, heightGrid, steepness, LODLevel);
         //}
+        #endregion
 
         vertCollection[0] += (new Vector3(x, y + LODLevel, z + LODLevel));
         vertCollection[1] += (new Vector3(x + LODLevel, y + LODLevel, z + LODLevel));
