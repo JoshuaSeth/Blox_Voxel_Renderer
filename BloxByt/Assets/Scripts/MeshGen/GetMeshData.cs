@@ -27,7 +27,7 @@ public static class GetMeshData
 
     public static int RoundToLodFrequency(int i, int LODLevel)
     {
-        return Mathf.FloorToInt(i / LODLevel) * LODLevel;
+        return Mathf.RoundToInt(i / LODLevel) * LODLevel;
     }
 
     public static MeshData Blockdata
@@ -41,68 +41,20 @@ public static class GetMeshData
 
         //De blok wordt gerenderd vanwege de hoogte. Daarom altijd facedata up.
         if (isTop)
-        {
             meshData = UpFace(x, y, z, meshData, biome, heightGrid, out slopedTop, steepness, LODLevel);
-        }
 
         if (!Settings.onlyRenderTopFaces)
         {
             if (heightGrid != null)
             {
-                meshData = FacesHeightGridEdge(x, y, z, meshData, biome, heightGrid, realX, realZ, LODLevel, chunkSize, steepness);
+                meshData = FacesHeightGridMiddle(x, y, z, meshData, biome, heightGrid, realX, realZ, LODLevel, chunkSize, steepness);
                 meshData = FacesHeightGridMiddle(x, y, z, meshData, biome, heightGrid, realX, realZ, LODLevel, chunkSize, steepness);
             }
 
-
-
             if (heightGrid == null)
             {
-                int hieghtOtherSpot = Chance.GetHeight(x, z + LODLevel, biome, heightGrid);
-                if (hieghtOtherSpot - LODLevel < y + LODLevel)
-                    for (int i = hieghtOtherSpot - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                hieghtOtherSpot = Chance.GetHeight(x, z - LODLevel, biome, heightGrid);
-                if (hieghtOtherSpot - LODLevel < y + LODLevel)
-                    for (int i = hieghtOtherSpot - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                hieghtOtherSpot = Chance.GetHeight(x + LODLevel, z, biome, heightGrid);
-                if (hieghtOtherSpot - LODLevel < y + LODLevel)
-                    for (int i = hieghtOtherSpot - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                hieghtOtherSpot = Chance.GetHeight(x - LODLevel, z, biome, heightGrid);
-                if (hieghtOtherSpot - LODLevel < y + LODLevel)
-                    for (int i = hieghtOtherSpot - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-
-
-                if (realZ + LODLevel - 1 == (chunkSize - 1) && realZ != 0)
-                    for (int i = y - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                if (realX + LODLevel - 1 == (chunkSize - 1) && realX != 0)
-                    for (int i = y - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                if (realZ == 0)
-                    for (int i = y - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
-                if (realX == 0)
-                    for (int i = y - LODLevel; i < y + LODLevel; i += LODLevel)
-                        if (i != y || !slopedTop)
-                            meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-
+                meshData = FacesMiddle(x, y, z, meshData, biome, heightGrid, LODLevel, slopedTop, steepness);
+                meshData = FacesEdge(x, y, z, meshData, biome, heightGrid, realX, realZ, LODLevel, chunkSize, slopedTop, steepness);
             }
         }
 
@@ -110,92 +62,114 @@ public static class GetMeshData
         return meshData;
     }
 
-    private static MeshData FacesHeightGridEdge(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int realX, int realZ, int LODLevel, int chunkSize, float steepness)
+    private static MeshData FacesEdge(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int realX, int realZ, int LODLevel, int chunkSize, bool slopedTop, float steepness)
     {
-        if (realZ < (chunkSize - 1))
-            if (RoundToLodFrequency(heightGrid[realX, Mathf.Min(realZ + LODLevel, (chunkSize - 1))], LODLevel) < y + 1)
-                for (int i = RoundToLodFrequency(heightGrid[realX, Mathf.Min(realZ + LODLevel, (chunkSize - 1))], LODLevel) - LODLevel; i < y + 1; i += LODLevel)
+        if (realZ + LODLevel - 1 == (chunkSize - 1) && realZ != 0)
+            for (int i = y - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
                     meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-        if (realZ > 0)
-            if (RoundToLodFrequency(heightGrid[realX, Mathf.Max(realZ - LODLevel, 0)], LODLevel) < y + 1)
-                for (int i = RoundToLodFrequency(heightGrid[realX, Mathf.Max(realZ - LODLevel, 0)], LODLevel) - LODLevel; i < y + 1; i += LODLevel)
+
+        if (realX + LODLevel - 1 == (chunkSize - 1) && realX != 0)
+            for (int i = y - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
+                    meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        if (realZ == 0)
+            for (int i = y - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
                     meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
 
-        if (realX < (chunkSize - 1))
-            if (RoundToLodFrequency(heightGrid[Mathf.Min(realX + LODLevel, (chunkSize - 1)), realZ], LODLevel) < y + 1)
-                for (int i = RoundToLodFrequency(heightGrid[Mathf.Min(realX + LODLevel, chunkSize - 1), realZ], LODLevel) - LODLevel; i < y + 1; i += LODLevel)
-                    meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-        if (realX > 0)
-            if (RoundToLodFrequency(heightGrid[Mathf.Max(realX - LODLevel, 0), realZ], LODLevel) < y + 1)
-                for (int i = RoundToLodFrequency(heightGrid[Mathf.Max(realX - LODLevel, 0), realZ], LODLevel) - LODLevel; i < y + 1; i += LODLevel)
+        if (realX == 0)
+            for (int i = y - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
                     meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+        return meshData;
+    }
 
+    private static MeshData FacesMiddle(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int LODLevel, bool slopedTop, float steepness)
+    {
+        int hieghtOtherSpot = Chance.GetHeight(x, z + LODLevel, biome, heightGrid);
+            for (int i = hieghtOtherSpot - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
+                    meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        hieghtOtherSpot = Chance.GetHeight(x, z - LODLevel, biome, heightGrid);
+            for (int i = hieghtOtherSpot - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
+                    meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        hieghtOtherSpot = Chance.GetHeight(x + LODLevel, z, biome, heightGrid);
+            for (int i = hieghtOtherSpot - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
+                    meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        hieghtOtherSpot = Chance.GetHeight(x - LODLevel, z, biome, heightGrid);
+            for (int i = hieghtOtherSpot - LODLevel; i < y; i += LODLevel)
+                if (i != y || !slopedTop)
+                    meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
         return meshData;
     }
 
     private static MeshData FacesHeightGridMiddle(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int realX, int realZ, int LODLevel, int chunkSize, float steepness)
     {
+        if (realZ < (chunkSize - 1))
+                for (int i = RoundToLodFrequency(heightGrid[realX, Mathf.Min(realZ + LODLevel, (chunkSize - 1))], LODLevel) - LODLevel; i < y; i += LODLevel)
+                    meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+        if (realZ > 0)
+                for (int i = RoundToLodFrequency(heightGrid[realX, Mathf.Max(realZ - LODLevel, 0)], LODLevel) - LODLevel; i < y; i += LODLevel)
+                    meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        if (realX < (chunkSize - 1))
+                for (int i = RoundToLodFrequency(heightGrid[Mathf.Min(realX + LODLevel, chunkSize - 1), realZ], LODLevel) - LODLevel; i < y; i += LODLevel)
+                    meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+        if (realX > 0)
+                for (int i = RoundToLodFrequency(heightGrid[Mathf.Max(realX - LODLevel, 0), realZ], LODLevel) - LODLevel; i < y; i += LODLevel)
+                    meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
+
+        return meshData;
+    }
+
+    //NSEW
+    private static MeshData FacesHeightGridEdge(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int realX, int realZ, int LODLevel, int chunkSize, float steepness)
+    {
         //Max Z
         if (realZ + LODLevel - 1 == (chunkSize - 1) && realZ != 0)
         {
-            int hypotheticalHeightGridDist = heightGrid[realX, Mathf.Max(realZ - LODLevel, 0)] - heightGrid[realX, realZ];
-            int hypotheticalHeight = heightGrid[realX, realZ] - hypotheticalHeightGridDist;
-            meshData = IterateGenerateFaces(x, y, z, meshData, biome, heightGrid, LODLevel, steepness, hypotheticalHeight, 3);
+            int heightChange = heightGrid[x, z - Mathf.Min(LODLevel, chunkSize-1)] - heightGrid[x, z];
+            int heightThere = heightGrid[x, z] - heightChange;
+            for (int i = RoundToLodFrequency(LODLevel,heightThere) - LODLevel * 3; i < y; i += LODLevel)
+                meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
         }
 
         //0 Z
         if (realZ == 0)
         {
-            int hypotheticalHeightGridDist = heightGrid[realX, Mathf.Min(realZ + LODLevel, (chunkSize - 1))] - heightGrid[realX, realZ];
-            int hypotheticalHeight = heightGrid[realX, realZ] - hypotheticalHeightGridDist;
-            meshData = IterateGenerateFaces(x, y, z, meshData, biome, heightGrid, LODLevel, steepness, hypotheticalHeight, 2);
+            int heightChange = heightGrid[x, z + Mathf.Min(LODLevel, chunkSize - 1)] - heightGrid[x, z];
+            int heightThere = heightGrid[x, z] - heightChange;
+            for (int i = RoundToLodFrequency(LODLevel, heightThere) - LODLevel * 3; i < y; i += LODLevel)
+                meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
         }
 
         //Max X
         if (realX + LODLevel - 1 == (chunkSize - 1) && realX != 0)
         {
-            int hypotheticalHeightGridDist = heightGrid[Mathf.Max(realX - LODLevel, 0), realZ] - heightGrid[realX, realZ];
-            int hypotheticalHeight = heightGrid[realX, realZ] - hypotheticalHeightGridDist;
-            meshData = IterateGenerateFaces(x, y, z, meshData, biome, heightGrid, LODLevel, steepness, hypotheticalHeight, 1);
+            int heightChange = heightGrid[x - Mathf.Min(LODLevel, chunkSize - 1), z] - heightGrid[x, z];
+            int heightThere = heightGrid[x, z] - heightChange;
+            for (int i = RoundToLodFrequency(LODLevel, heightThere) - LODLevel * 3; i < y; i += LODLevel)
+                meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
         }
         //0 X
         if (realX == 0)
         {
-            int hypotheticalHeightGridDist = heightGrid[Mathf.Min(realX + LODLevel, (chunkSize - 1)), realZ] - heightGrid[realX, realZ];
-            int hypotheticalHeight = heightGrid[realX, realZ] - hypotheticalHeightGridDist;
-            meshData = IterateGenerateFaces(x, y, z, meshData, biome, heightGrid, LODLevel, steepness, hypotheticalHeight, 0);
+            int heightChange = heightGrid[x + Mathf.Min(LODLevel, chunkSize - 1), z] - heightGrid[x, z];
+            int heightThere = heightGrid[x, z] - heightChange;
+            for (int i = RoundToLodFrequency(LODLevel, heightThere) - LODLevel*3; i < y; i += LODLevel)
+                meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
         }
 
         return meshData;
     }
 
-    private static MeshData IterateGenerateFaces(int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, int LODLevel, float steepness, int hypotheticalHeight, int direction)
-    {
-        for (int i = hypotheticalHeight - LODLevel; i < y + LODLevel; i += LODLevel)
-        {
-            if (direction == 0)
-                meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 1)
-                meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 2)
-                meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 3)
-                meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-        }
-        for (int i = y - Mathf.CeilToInt(3f / LODLevel); i < y + LODLevel; i += LODLevel)
-        {
-            if (direction == 0)
-                meshData = WestFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 1)
-                meshData = EastFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 2)
-                meshData = SouthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-            if (direction == 3)
-                meshData = NorthFace(x, i, z, meshData, biome, heightGrid, steepness, LODLevel);
-        }
-
-        return meshData;
-    }
 
     static MeshData UpFace
         (int x, int y, int z, MeshData meshData, Biome biome, int[,] heightGrid, out bool slopedTop, float steepness, int LODLevel)
@@ -283,11 +257,11 @@ public static class GetMeshData
         //        meshData = NorthFaceBottomTriangleReversed(x, y, z, meshData, biome, heightGrid, steepness, LODLevel);
         //}
         #endregion
-
-        vertCollection[0] += (new Vector3(x, y + LODLevel, z + LODLevel));
-        vertCollection[1] += (new Vector3(x + LODLevel, y + LODLevel, z + LODLevel));
-        vertCollection[2] += (new Vector3(x + LODLevel, y + LODLevel, z));
-        vertCollection[3] += (new Vector3(x, y + LODLevel, z));
+        int heightRoundedToLod = RoundToLodFrequency(y, LODLevel);
+        vertCollection[0] += (new Vector3(x, heightRoundedToLod, z + LODLevel));
+        vertCollection[1] += (new Vector3(x + LODLevel, heightRoundedToLod, z + LODLevel));
+        vertCollection[2] += (new Vector3(x + LODLevel, heightRoundedToLod, z));
+        vertCollection[3] += (new Vector3(x, heightRoundedToLod, z));
 
         //Add to meshdata
         foreach (Vector3 vert in vertCollection)
